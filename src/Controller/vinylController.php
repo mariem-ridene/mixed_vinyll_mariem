@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class vinylController extends AbstractController{
-    #[Route("/page1", name:'app_homepage')]
-    function homepage():Response{
+    #[Route("/", name:'app_homepage')]
+    public function homepage():Response{
 
         $tracks = [
             ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
@@ -22,19 +22,18 @@ class vinylController extends AbstractController{
         dump($tracks);
 
         return $this->render('vinyl/homepage.html.twig',[
-            'title'=>'Iset Kelibia',
+            'title'=>'PB & Jams',
             'tracks' => $tracks,
         ]);
+       
 
     }
     #[Route("/browse/{slug}",name:'app_browse')]
-    function browse(string $slug=null):Response{
-        if($slug){
-        $title="Genre:" . u(str_replace("-"," ",$slug))->title(true);
-        }else{
-            $title="All Genre";
-        }
-        return new Response ($title);
+    public function browse(string $slug = null): Response
+    {
+        $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
+        return $this->render('vinyl/browse.html.twig', [
+            'genre' => $genre
+        ]);
     }
-
 }
