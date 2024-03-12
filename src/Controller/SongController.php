@@ -10,11 +10,11 @@ use Psr\Log\LoggerInterface;
 class SongController extends AbstractController
 {
 
-    #[Route('/api/songs/{id<\d+>}', methods: ['GET'])]
+    #[Route('/api/songs/{id<\d+>}', methods: ['GET'], name:'api_songs_get_one')]
     public function getSong(int $id, LoggerInterface $Logger): Response
     {
         // TODO query the database
-        $song = [
+        $songs = [
             'id' => $id,
             'name' => 'Waterfalls',
             'url' => 'https://symfonycasts.s3.amazonaws.com/sample.mp3',
@@ -22,7 +22,7 @@ class SongController extends AbstractController
         $Logger->info('Returning API response for song {song}',[
            'song'=>$id, 
         ]);
-        return $this->json($song);
+        return $this->json($songs[$id]);
     }
 
     
